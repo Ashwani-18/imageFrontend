@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import Label from "../components/Layout";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -8,7 +11,9 @@ const Signup = () => {
   const [confirm, setConfirm] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSignup = (e) => {
+  const navigate = useNavigate();
+
+  const handleSignup = async (e) => {
     e.preventDefault();
     setMessage('');
     if (!name || !email || !password || !confirm) {
@@ -19,7 +24,30 @@ const Signup = () => {
       setMessage('Passwords do not match.');
       return;
     }
-    setMessage('Signup successful (dummy logic).');
+    try {
+      const API_BASE = process.env.REACT_APP_API;
+      const response = await axios.post(`${API_BASE}/api/v1/auth/signup`, {
+        name,
+        email,
+        password,
+        role: 0 // default role
+      });
+      if (response.data.success) {
+        setMessage('Signup successful! You can now log in.');
+        toast.success('Signup successful! Please log in.');
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirm('');
+        setTimeout(() => navigate('/login'), 1500); // Redirect after 1.5s
+      } else {
+        setMessage(response.data.message || 'Signup failed.');
+        toast.error(response.data.message || 'Signup failed.');
+      }
+    } catch (error) {
+      setMessage(error.response?.data?.message || 'Signup failed.');
+      toast.error(error.response?.data?.message || 'Signup failed.');
+    }
   };
 
   return (
