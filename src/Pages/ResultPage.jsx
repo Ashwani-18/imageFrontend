@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios'
 
 function ResultPage() {
   const [prompt, setPrompt] = useState('');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const BASE_URL = process.env.REACT_APP_API; // Make sure this is set in your .env
 
   const handleGenerate = async (e) => {
     e.preventDefault();
@@ -14,11 +14,9 @@ function ResultPage() {
     setImage(null);
 
     try {
-      // You may need to adjust the API endpoint and authentication as per your backend
-      const userId = localStorage.getItem('userId'); // or however you store userId
-      const token = localStorage.getItem('token'); // if you use JWT auth
+      const token = localStorage.getItem('token'); // JWT auth
 
-      const response = await fetch('/api/image/generate-image', {
+      const response = await fetch(`${BASE_URL}/api/v1/image/generate-image`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
