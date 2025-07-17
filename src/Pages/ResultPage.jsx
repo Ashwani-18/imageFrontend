@@ -24,7 +24,7 @@ function ResultPage() {
           'Content-Type': 'application/json',
           ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         },
-        body: JSON.stringify({ prompt, userId }),
+        body: JSON.stringify({ prompt }), // Only send prompt
       });
 
       const data = await response.json();
