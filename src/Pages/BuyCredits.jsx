@@ -17,6 +17,7 @@ const BuyCredits = () => {
 
   const handleBuy = async (planId) => {
     try {
+      console.log('Token being sent:', token); // Debug log
       const res = await fetch(`${process.env.REACT_APP_API}/api/v1/transaction/create-order`, {
         method: 'POST',
         headers: {
