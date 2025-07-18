@@ -43,7 +43,7 @@ const Login = () => {
         } catch (err) {
           authLogin(response.data.token);
         }
-        setTimeout(() => navigate('/'), 1500); // Redirect to home after toast
+        navigate('/'); // Redirect immediately after login
       } else {
         toast.error(response.data.message || 'Login failed.');
       }
