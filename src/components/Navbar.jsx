@@ -105,12 +105,30 @@ const Navbar = () => {
               >
                 Buy Credits
               </a>
-              <a 
-                href="/login" 
-                className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
-              >
-                Login
-              </a>
+              {user && (
+                <span className="bg-green-600 text-white block px-3 py-2 rounded-md text-base font-medium mb-2">
+                  Credits: {credits !== null ? credits : '...'}
+                </span>
+              )}
+              {user ? (
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    logout();
+                    navigate('/');
+                  }}
+                  className="text-red-400 hover:text-white block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                >
+                  Logout
+                </button>
+              ) : (
+                <a 
+                  href="/login" 
+                  className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                >
+                  Login
+                </a>
+              )}
             </div>
           </div>
         )}
